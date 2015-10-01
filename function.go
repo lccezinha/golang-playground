@@ -2,7 +2,9 @@ package main
 
 import "fmt"
 
-func add(x int, y int) int {
+// add(x int, y int) -> como os dois são do mesmo tipo, pode ser omitido e trocado por
+// add(x, y int)
+func add(x, y int) int {
   return x + y
 }
 
