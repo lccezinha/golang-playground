@@ -8,8 +8,8 @@ type Car struct{
 
 func main(){
   a := Car{"Gol", "VW"}
-  b := Car{Model: "Monza"}
-  c := Car{}
+  b := Car{Model: "Monza"} // Factory fica em branco
+  c := Car{} // Tudo em branco
   x := &Car{"Opala", "GM"}
 
   fmt.Println(a, b, c, x)
