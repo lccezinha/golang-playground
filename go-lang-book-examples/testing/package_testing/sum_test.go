@@ -6,7 +6,7 @@ func TestSum(t *testing.T) {
 	var result int
 	n1 := 10
 	n2 := 10
-	expected := 15
+	expected := 20
 
 	result = sum(n1, n2)
 
