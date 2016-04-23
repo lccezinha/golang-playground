@@ -21,7 +21,7 @@ func getReady(who string, waitGroup *sync.WaitGroup) {
 	timeSpent := rand.Intn(30) + 60
 
 	fmt.Printf("%s started getting ready\n", who)
-	time.Sleep(time.Duration(timeSpent) * time.Millisecond)
+	time.Sleep(time.Duration(timeSpent) * time.Second)
 	fmt.Printf("%s spent %d seconds to get ready\n", who, timeSpent)
 }
 
@@ -30,13 +30,12 @@ func putShoes(who string, waitGroup *sync.WaitGroup) {
 	timeSpent := rand.Intn(10) + 35
 
 	fmt.Printf("%s started putting on shoes\n", who)
-	time.Sleep(time.Duration(timeSpent) * time.Millisecond)
+	time.Sleep(time.Duration(timeSpent) * time.Second)
 	fmt.Printf("%s finished to put shoes is %d seconds\n", who, timeSpent)
 }
 
-func prepareAlarm(startArm <-chan struct{}, armStarted chan<- struct{}, armFinished chan<- struct{}) {
-	<-startArm // recebe o sinal enviado por close(startArm)
-	close(armStarted)
+func prepareAlarm(armFinished chan<- struct{}) {
+	fmt.Println("\nArming alarm..")
 	time.Sleep(60 * time.Second)
 	close(armFinished)
 }
@@ -52,15 +51,10 @@ func main() {
 	go getReady(alice, &waitGroup)
 	waitGroup.Wait()
 
-	fmt.Println("\n")
-
-	startArm := make(chan struct{})
-	armStarted := make(chan struct{})
+	// armStarted := make(chan struct{})
 	armFinished := make(chan struct{})
-	go prepareAlarm(startArm, armStarted, armFinished)
-	close(startArm) // Envia sinal dizendo que fechou o chan startArm
-	fmt.Println("\nArming alarm..")
-	<-armStarted // Recebe o sinal de close(armStarted)
+	go prepareAlarm(armFinished)
+	// <-armStarted // Recebe o sinal de close(armStarted)
 
 	waitGroup.Add(3)
 	go func() {
