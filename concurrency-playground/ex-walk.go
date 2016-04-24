@@ -51,10 +51,8 @@ func main() {
 	go getReady(alice, &waitGroup)
 	waitGroup.Wait()
 
-	// armStarted := make(chan struct{})
 	armFinished := make(chan struct{})
 	go prepareAlarm(armFinished)
-	// <-armStarted // Recebe o sinal de close(armStarted)
 
 	waitGroup.Add(3)
 	go func() {
