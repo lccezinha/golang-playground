@@ -8,8 +8,8 @@ import (
 )
 
 type CommemorativeDate struct {
-  Date        string
-  Description string
+  Date        string `json:"date"`
+  Description string `json:"description"`
 }
 
 type CommemorativeDates []CommemorativeDate
@@ -22,7 +22,6 @@ func main () {
   if err != nil {
     panic(err)
   }
-
   defer file.Close()
 
   reader := csv.NewReader(file)
@@ -45,7 +44,6 @@ func main () {
   defer jsonFile.Close()
 
   jsonFile.Write(datesToJson)
-  jsonFile.Close()
 
   fmt.Println("Done!")
 }
