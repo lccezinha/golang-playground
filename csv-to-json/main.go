@@ -2,7 +2,6 @@ package main
 
 import (
   "fmt"
-  "io/ioutil"
   "os"
   "encoding/csv"
   "encoding/json"
@@ -38,6 +37,15 @@ func main () {
   }
 
   datesToJson, _ := json.Marshal(dates)
-  ioutil.WriteFile("./csv-to-json/output/dates.json", datesToJson, 0644)
+  jsonFile, err := os.Create("./csv-to-json/output/dates.json")
+
+  if err != nil {
+    panic(err)
+  }
+  defer jsonFile.Close()
+
+  jsonFile.Write(datesToJson)
+  jsonFile.Close()
+
   fmt.Println("Done!")
 }
